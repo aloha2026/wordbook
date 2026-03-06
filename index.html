@@ -4,464 +4,1076 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>WordBook 📖</title>
+<title>Học Tiếng Anh Cùng Sóc Nhỏ 🐿️</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: 'Nunito', sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; color: #fff; }
-.app { max-width: 480px; margin: 0 auto; padding-bottom: 90px; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff}
+.app{max-width:480px;margin:0 auto;padding-bottom:100px}
 
-.header { padding: 24px 20px 0; }
-.header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-.logo { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; }
-.logo span { color: #a78bfa; }
-.badges { display: flex; gap: 8px; }
-.badge { background: rgba(255,255,255,.1); border-radius: 14px; padding: 6px 12px; font-size: 12px; font-weight: 800; }
-.badge.purple { background: rgba(167,139,250,.25); color: #c4b5fd; }
-.subtitle { font-size: 13px; color: rgba(255,255,255,.4); font-weight: 600; margin-bottom: 20px; }
+/* HEADER */
+.header{padding:16px 16px 0}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800}
+.logo span{color:#a78bfa}
+.hbadges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.hbadge{border-radius:10px;padding:4px 9px;font-size:11px;font-weight:800}
+.hb-w{background:rgba(255,255,255,.1)}
+.hb-p{background:rgba(167,139,250,.25);color:#c4b5fd}
+.hb-g{background:rgba(34,197,94,.2);color:#4ade80}
+.hb-y{background:rgba(255,193,7,.2);color:#FFD93D}
+.subtitle{font-size:11px;color:rgba(255,255,255,.35);font-weight:600;margin-bottom:12px}
 
-.tabs { display: flex; background: rgba(255,255,255,.07); border-radius: 16px; padding: 4px; margin-bottom: 20px; }
-.tab-btn { flex: 1; border: none; border-radius: 12px; padding: 9px 0; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 12px; cursor: pointer; color: rgba(255,255,255,.4); background: transparent; transition: all .2s; }
-.tab-btn.active { background: rgba(167,139,250,.4); color: #e9d5ff; }
+/* STREAK BAR */
+.streak-bar{background:rgba(255,100,50,.12);border:1px solid rgba(255,120,50,.25);border-radius:14px;padding:8px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.streak-fire{font-size:18px}
+.streak-info{flex:1}
+.streak-txt{font-size:12px;font-weight:800;color:#FFD93D}
+.streak-sub{font-size:10px;color:rgba(255,255,255,.4);font-weight:600}
+.streak-count{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#FF6B35}
 
-.content { padding: 0 20px; }
-.section { display: none; }
-.section.active { display: block; }
+/* TIMER */
+.timer-bar{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:14px;padding:8px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.timer-left .lbl{font-size:10px;color:rgba(255,255,255,.4);font-weight:700}
+.timer-left .val{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#4ade80}
+.t-btns{display:flex;gap:6px}
+.t-btn{border:none;border-radius:9px;padding:5px 11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s}
+.t-btn:active{transform:scale(.93)}
+.t-go{background:linear-gradient(135deg,#22c55e,#16a34a);color:white}
+.t-stop{background:rgba(239,68,68,.25);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.t-rst{background:rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
 
-.input-card { background: rgba(255,255,255,.05); border: 1px solid rgba(167,139,250,.3); border-radius: 24px; padding: 20px; margin-bottom: 16px; }
-.input-label { font-size: 13px; font-weight: 800; color: #c4b5fd; margin-bottom: 10px; }
-.input-row { display: flex; gap: 8px; }
-.word-input { flex: 1; background: rgba(255,255,255,.08); border: 1.5px solid rgba(255,255,255,.12); border-radius: 14px; padding: 11px 16px; color: white; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 700; outline: none; transition: border .2s; }
-.word-input:focus { border-color: #a78bfa; }
-.word-input::placeholder { color: rgba(255,255,255,.3); }
-.search-btn { background: linear-gradient(135deg, #a78bfa, #7c3aed); border: none; border-radius: 14px; width: 50px; font-size: 20px; cursor: pointer; flex-shrink: 0; transition: all .15s; box-shadow: 0 4px 16px rgba(124,58,237,.4); }
-.search-btn:active { transform: scale(.93); }
-.search-btn:disabled { background: rgba(167,139,250,.3); cursor: not-allowed; box-shadow: none; }
-.loading-row { display: none; align-items: center; gap: 8px; color: rgba(255,255,255,.5); font-size: 13px; font-weight: 700; margin-top: 12px; }
-.loading-row.show { display: flex; }
-.spinner { width: 16px; height: 16px; border: 2px solid #a78bfa; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.error-msg { color: #f87171; font-size: 12px; font-weight: 700; margin-top: 8px; display: none; }
-.error-msg.show { display: block; }
+/* TABS */
+.tab-row{display:flex;background:rgba(255,255,255,.06);border-radius:12px;padding:3px;margin-bottom:14px;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tab-row::-webkit-scrollbar{display:none}
+.tb{flex:1;min-width:52px;border:none;border-radius:9px;padding:7px 2px;font-family:'Nunito',sans-serif;font-weight:800;font-size:10px;cursor:pointer;color:rgba(255,255,255,.4);background:transparent;transition:all .2s;white-space:nowrap}
+.tb.active{background:rgba(167,139,250,.4);color:#e9d5ff}
 
-.free-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(34,197,94,.15); border: 1px solid rgba(34,197,94,.3); border-radius: 10px; padding: 5px 12px; font-size: 11px; font-weight: 800; color: #4ade80; margin-bottom: 12px; }
+.content{padding:0 16px}
+.sec{display:none}.sec.active{display:block}
 
-.sec-label { font-size: 13px; font-weight: 800; color: rgba(255,255,255,.4); margin-bottom: 12px; letter-spacing: 1px; }
-.word-card { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 20px; padding: 14px 16px; margin-bottom: 10px; animation: slideUp .25s ease-out; }
-@keyframes slideUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-.word-card-top { display: flex; align-items: flex-start; gap: 10px; }
-.word-info { flex: 1; }
-.word-en { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 3px; }
-.word-phonetic { font-size: 13px; color: rgba(255,255,255,.45); font-weight: 600; margin-bottom: 4px; }
-.word-vi { font-size: 14px; font-weight: 700; color: #c4b5fd; margin-bottom: 4px; }
-.word-ex { font-size: 12px; color: rgba(255,255,255,.35); font-weight: 600; line-height: 1.5; }
-.word-actions { display: flex; flex-direction: column; gap: 6px; }
-.icon-btn { border: none; border-radius: 10px; width: 34px; height: 34px; font-size: 15px; cursor: pointer; transition: all .15s; }
-.icon-btn:active { transform: scale(.9); }
-.btn-speak { background: rgba(167,139,250,.2); }
-.btn-del { background: rgba(239,68,68,.15); }
-.word-date { font-size: 10px; color: rgba(255,255,255,.2); font-weight: 700; margin-top: 8px; }
+/* GENERIC CARD */
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(167,139,250,.2);border-radius:20px;padding:16px;margin-bottom:12px}
+.card-title{font-size:13px;font-weight:800;color:#c4b5fd;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec-lbl{font-size:11px;font-weight:800;color:rgba(255,255,255,.35);margin-bottom:8px;letter-spacing:1px}
 
-.card-progress-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-.progress-bar { flex: 1; background: rgba(255,255,255,.1); border-radius: 20px; height: 6px; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, #a78bfa, #7c3aed); transition: width .4s ease; }
-.progress-text { font-size: 12px; font-weight: 800; color: rgba(255,255,255,.4); }
+/* INPUT */
+.inp-row{display:flex;gap:7px}
+.inp{flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:11px;padding:9px 13px;color:white;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;outline:none;transition:border .2s}
+.inp:focus{border-color:#a78bfa}
+.inp::placeholder{color:rgba(255,255,255,.3)}
+.s-btn{background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;border-radius:11px;width:44px;font-size:17px;cursor:pointer;flex-shrink:0;transition:all .15s;box-shadow:0 4px 12px rgba(124,58,237,.4)}
+.s-btn:active{transform:scale(.93)}
+.s-btn:disabled{background:rgba(167,139,250,.3);cursor:not-allowed;box-shadow:none}
+.spin-row{display:none;align-items:center;gap:7px;color:rgba(255,255,255,.5);font-size:12px;font-weight:700;margin-top:9px}
+.spin-row.show{display:flex}
+.sp{width:13px;height:13px;border:2px solid #a78bfa;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.err{color:#f87171;font-size:11px;font-weight:700;margin-top:7px;display:none}
+.err.show{display:block}
 
-.card-scene { perspective: 1000px; height: 290px; margin-bottom: 18px; cursor: pointer; }
-.card-inner { position: relative; width: 100%; height: 100%; transition: transform .55s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; }
-.card-inner.flipped { transform: rotateY(180deg); }
-.card-face { position: absolute; inset: 0; background: rgba(255,255,255,.06); border: 1px solid rgba(167,139,250,.3); border-radius: 24px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 22px; text-align: center; }
-.card-back { transform: rotateY(180deg); align-items: flex-start; text-align: left; }
-.card-hint-label { font-size: 11px; font-weight: 800; color: rgba(255,255,255,.3); letter-spacing: 2px; margin-bottom: 12px; }
-.card-word { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; margin-bottom: 8px; word-break: break-word; }
-.card-phonetic-el { font-size: 16px; color: rgba(255,255,255,.4); font-weight: 600; }
-.card-speak-btn { margin-top: 14px; background: rgba(167,139,250,.2); border: none; border-radius: 12px; padding: 8px 18px; color: #c4b5fd; font-size: 13px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; }
-.card-tap-hint { position: absolute; bottom: 14px; font-size: 11px; color: rgba(255,255,255,.2); font-weight: 700; }
-.card-vi-el { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 8px; }
-.divider { width: 100%; height: 1px; background: rgba(255,255,255,.1); margin: 10px 0; }
-.card-ex-el { font-size: 13px; color: rgba(255,255,255,.6); font-weight: 600; line-height: 1.5; }
-.card-ex-vi-el { font-size: 12px; color: rgba(255,255,255,.3); font-weight: 600; margin-top: 4px; }
+/* WORD CARDS */
+.wcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:12px 13px;margin-bottom:8px;animation:su .22s ease-out}
+@keyframes su{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.wtop{display:flex;align-items:flex-start;gap:9px}
+.winfo{flex:1}
+.wen{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;margin-bottom:2px}
+.wph{font-size:11px;color:rgba(255,255,255,.4);font-weight:600;margin-bottom:3px}
+.wvi{font-size:12px;font-weight:700;color:#c4b5fd;margin-bottom:3px}
+.wex{font-size:11px;color:rgba(255,255,255,.3);font-weight:600;line-height:1.4}
+.wact{display:flex;flex-direction:column;gap:4px}
+.ic{border:none;border-radius:8px;width:30px;height:30px;font-size:13px;cursor:pointer;transition:all .15s}
+.ic:active{transform:scale(.9)}
+.ic-sp{background:rgba(167,139,250,.2)}
+.ic-dl{background:rgba(239,68,68,.15)}
+.wdate{font-size:9px;color:rgba(255,255,255,.2);font-weight:700;margin-top:5px}
+.weak-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#f87171;margin-right:4px;vertical-align:middle}
 
-.answer-btns { display: flex; gap: 12px; }
-.answer-btn { flex: 1; border-radius: 18px; padding: 14px 0; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 15px; cursor: pointer; transition: all .2s; border: 2px solid; }
-.answer-btn:active { transform: scale(.95); }
-.btn-again { background: rgba(239,68,68,.15); border-color: rgba(239,68,68,.4); color: #f87171; }
-.btn-again.sel { background: #ef4444; color: white; }
-.btn-know  { background: rgba(34,197,94,.15); border-color: rgba(34,197,94,.4); color: #4ade80; }
-.btn-know.sel  { background: #22c55e; color: white; }
-.flip-hint { text-align: center; color: rgba(255,255,255,.3); font-size: 13px; font-weight: 700; margin-top: 10px; }
+/* FLASHCARD */
+.fl-scores{display:flex;gap:8px;margin-bottom:12px}
+.fl-sc{flex:1;background:rgba(255,255,255,.05);border-radius:12px;padding:8px;text-align:center}
+.fl-sc-n{font-family:'Syne',sans-serif;font-size:19px;font-weight:800}
+.fl-sc-l{font-size:9px;font-weight:800;color:rgba(255,255,255,.4);margin-top:1px}
+.prog-wrap{display:flex;align-items:center;gap:7px;margin-bottom:12px}
+.prog-bar{flex:1;background:rgba(255,255,255,.1);border-radius:20px;height:5px;overflow:hidden}
+.prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#a78bfa,#7c3aed);transition:width .4s ease}
+.prog-txt{font-size:10px;font-weight:800;color:rgba(255,255,255,.4)}
+.cscene{perspective:1000px;height:250px;margin-bottom:12px;cursor:pointer}
+.cinner{position:relative;width:100%;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d}
+.cinner.flip{transform:rotateY(180deg)}
+.cface{position:absolute;inset:0;background:rgba(255,255,255,.06);border:1px solid rgba(167,139,250,.28);border-radius:20px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;text-align:center}
+.cback{transform:rotateY(180deg);align-items:flex-start;text-align:left}
+.chint{font-size:10px;font-weight:800;color:rgba(255,255,255,.3);letter-spacing:2px;margin-bottom:9px}
+.cword{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;margin-bottom:5px;word-break:break-word}
+.cph{font-size:13px;color:rgba(255,255,255,.4);font-weight:600}
+.cspk{margin-top:10px;background:rgba(167,139,250,.2);border:none;border-radius:9px;padding:6px 13px;color:#c4b5fd;font-size:11px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif}
+.ctap{position:absolute;bottom:10px;font-size:9px;color:rgba(255,255,255,.2);font-weight:700}
+.cvi{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:5px}
+.cdiv{width:100%;height:1px;background:rgba(255,255,255,.1);margin:7px 0}
+.cex{font-size:11px;color:rgba(255,255,255,.55);font-weight:600;line-height:1.4}
+.cexa{font-size:10px;color:rgba(255,255,255,.3);font-weight:600;margin-top:3px}
+.abns{display:flex;gap:9px;margin-bottom:8px}
+.abn{flex:1;border-radius:14px;padding:12px 0;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer;transition:all .2s;border:2px solid}
+.abn:active{transform:scale(.95)}
+.abn-a{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:#f87171}
+.abn-a.sel{background:#ef4444;color:white}
+.abn-k{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.4);color:#4ade80}
+.abn-k.sel{background:#22c55e;color:white}
+.fhint{text-align:center;color:rgba(255,255,255,.3);font-size:11px;font-weight:700;margin-top:7px}
 
-.done-screen { text-align: center; padding: 40px 20px; }
-.done-emoji { font-size: 64px; margin-bottom: 12px; }
-.done-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 8px; }
-.done-sub { color: rgba(255,255,255,.5); font-size: 14px; font-weight: 700; margin-bottom: 24px; }
+/* READING */
+.rdot{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.rsen{background:rgba(255,255,255,.05);border:1px solid rgba(167,139,250,.2);border-radius:18px;padding:18px;margin-bottom:10px;text-align:center}
+.ren{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:7px;line-height:1.4}
+.rhl{color:#a78bfa;font-style:italic}
+.rvi{font-size:12px;color:rgba(255,255,255,.4);font-weight:600;margin-bottom:13px}
+.rbtns{display:flex;gap:9px;justify-content:center}
+.rb{border:none;border-radius:12px;padding:9px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:all .15s}
+.rb:active{transform:scale(.93)}
+.rb-l{background:rgba(167,139,250,.22);color:#c4b5fd;border:1px solid rgba(167,139,250,.3)}
+.rb-r{background:linear-gradient(135deg,#a78bfa,#7c3aed);color:white;box-shadow:0 4px 12px rgba(124,58,237,.35)}
+.rscore-wrap{margin-top:13px}
+.rscore-lbl{font-size:11px;font-weight:800;color:rgba(255,255,255,.4);margin-bottom:5px;text-align:center}
+.rstars{font-size:26px;text-align:center;margin-bottom:3px}
+.rfb{font-size:12px;font-weight:700;text-align:center}
+.rnav{display:flex;gap:7px;margin-top:10px}
+.rnav button{flex:1;border:none;border-radius:11px;padding:9px 0;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:all .15s}
+.rnav .rprev{background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)}
+.rnav .rnext{background:linear-gradient(135deg,#a78bfa,#7c3aed);color:white}
 
-.big-btn { background: linear-gradient(135deg, #7c3aed, #a855f7); border: none; border-radius: 18px; padding: 14px 0; color: white; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 15px; cursor: pointer; width: 100%; box-shadow: 0 8px 24px rgba(124,58,237,.4); transition: all .15s; margin-top: 8px; }
-.big-btn:active { transform: scale(.97); }
+/* DAILY CONVERSATION */
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.topic-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s;text-align:center}
+.topic-card:active{transform:scale(.96)}
+.topic-card.sel{border-color:#a78bfa;background:rgba(167,139,250,.15)}
+.topic-icon{font-size:24px;margin-bottom:5px}
+.topic-name{font-size:11px;font-weight:800}
+.topic-count{font-size:10px;color:rgba(255,255,255,.4);font-weight:600;margin-top:2px}
+.phrase-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:13px;margin-bottom:8px}
+.phrase-en{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:3px}
+.phrase-vi{font-size:12px;color:#c4b5fd;font-weight:700;margin-bottom:5px}
+.phrase-btns{display:flex;gap:7px}
+.pbtn{border:none;border-radius:9px;padding:5px 11px;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s}
+.pbtn:active{transform:scale(.93)}
+.pb-sp{background:rgba(167,139,250,.2);color:#c4b5fd}
+.pb-add{background:rgba(34,197,94,.2);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.pb-add.done{background:rgba(34,197,94,.4);color:white}
 
-.empty { text-align: center; padding: 50px 20px; color: rgba(255,255,255,.3); }
-.empty-icon { font-size: 48px; margin-bottom: 12px; }
-.empty-text { font-weight: 800; font-size: 14px; }
+/* MINI GAME */
+.game-card{background:rgba(255,255,255,.06);border:1px solid rgba(167,139,250,.25);border-radius:20px;padding:18px;margin-bottom:12px;text-align:center}
+.game-question{font-size:12px;font-weight:800;color:rgba(255,255,255,.4);margin-bottom:10px;letter-spacing:1px}
+.game-word{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;margin-bottom:8px}
+.game-hint{font-size:12px;color:rgba(255,255,255,.4);font-weight:600;margin-bottom:16px}
+.game-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.game-opt{border:2px solid rgba(255,255,255,.12);border-radius:13px;padding:11px 8px;background:rgba(255,255,255,.05);color:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all .2s}
+.game-opt:active{transform:scale(.96)}
+.game-opt.correct{border-color:#22c55e;background:rgba(34,197,94,.2);color:#4ade80}
+.game-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.2);color:#f87171}
+.game-opt.disabled{cursor:not-allowed;opacity:.6}
+.game-score-bar{display:flex;gap:8px;margin-bottom:12px}
+.gsc{flex:1;background:rgba(255,255,255,.05);border-radius:11px;padding:8px;text-align:center}
+.gsc-n{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
+.gsc-l{font-size:9px;font-weight:800;color:rgba(255,255,255,.4);margin-top:1px}
 
-.search-filter { width: 100%; background: rgba(255,255,255,.07); border: 1.5px solid rgba(255,255,255,.1); border-radius: 14px; padding: 10px 16px; color: white; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; outline: none; margin-bottom: 14px; }
-.search-filter::placeholder { color: rgba(255,255,255,.3); }
-.search-filter:focus { border-color: #a78bfa; }
+/* BADGES */
+.badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.bdg{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:11px 8px;text-align:center;transition:all .3s}
+.bdg.earned{background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,165,0,.08));border-color:rgba(255,193,7,.35)}
+.bdg.locked{opacity:.35;filter:grayscale(.7)}
+.bdg-icon{font-size:22px;margin-bottom:4px}
+.bdg-name{font-size:10px;font-weight:800;color:rgba(255,255,255,.5)}
+.bdg.earned .bdg-name{color:#FFD93D}
+.bdg-prog{font-size:9px;color:rgba(255,255,255,.3);margin-top:2px}
 
-.toast { position: fixed; top: 16px; left: 50%; transform: translateX(-50%) translateY(-80px); color: white; padding: 10px 22px; border-radius: 20px; font-weight: 800; font-size: 14px; z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,.3); white-space: nowrap; transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
-.toast.show { transform: translateX(-50%) translateY(0); }
+/* NIGHT REVIEW */
+.night-card{background:linear-gradient(135deg,rgba(30,20,60,.8),rgba(15,10,40,.9));border:1px solid rgba(167,139,250,.3);border-radius:20px;padding:18px;margin-bottom:12px;text-align:center}
+.night-icon{font-size:40px;margin-bottom:8px}
+.night-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px}
+.night-sub{font-size:12px;color:rgba(255,255,255,.45);font-weight:600;margin-bottom:14px;line-height:1.5}
 
-.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: rgba(15,12,41,.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,.08); display: flex; padding-bottom: 6px; z-index: 100; }
-.nav-btn { flex: 1; border: none; background: none; cursor: pointer; padding: 10px 0 4px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: rgba(255,255,255,.3); font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 11px; transition: color .2s; }
-.nav-btn.active { color: #a78bfa; }
-.nav-icon { font-size: 22px; }
+/* REMINDER */
+.remind-card{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:16px;padding:14px;margin-bottom:12px}
+.remind-title{font-size:12px;font-weight:800;color:#fbbf24;margin-bottom:8px}
+.remind-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.remind-inp{background:rgba(255,255,255,.08);border:1.5px solid rgba(251,191,36,.3);border-radius:10px;padding:7px 12px;color:white;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;outline:none;width:120px}
+.remind-btn{border:none;border-radius:10px;padding:7px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:all .15s}
+.remind-set{background:linear-gradient(135deg,#f59e0b,#d97706);color:white}
+.remind-off{background:rgba(239,68,68,.2);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+
+/* PARENT */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.scard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:12px;text-align:center}
+.scard-n{font-family:'Syne',sans-serif;font-size:26px;font-weight:800}
+.scard-l{font-size:10px;font-weight:800;color:rgba(255,255,255,.4);margin-top:2px}
+.scard.bl .scard-n{color:#6EC6F5}
+.scard.gn .scard-n{color:#4ade80}
+.scard.yw .scard-n{color:#FFD93D}
+.scard.pu .scard-n{color:#c4b5fd}
+.week-chart{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:13px;margin-bottom:12px}
+.wbars{display:flex;gap:5px;align-items:flex-end;height:70px;margin-bottom:3px}
+.wbw{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.wbar{width:100%;background:rgba(167,139,250,.2);border-radius:5px 5px 0 0;transition:height .4s ease;min-height:3px}
+.wbar.today{background:linear-gradient(180deg,#a78bfa,#7c3aed)}
+.wday{font-size:9px;font-weight:800;color:rgba(255,255,255,.35)}
+.wmin{font-size:8px;font-weight:800;color:rgba(255,255,255,.25)}
+.hist-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:13px;margin-bottom:12px}
+.hitem{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.hitem:last-child{border:none}
+.hdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.hinfo{flex:1}
+.hdate{font-size:11px;font-weight:800}
+.hdet{font-size:10px;color:rgba(255,255,255,.35);font-weight:600;margin-top:1px}
+.hscore{font-size:12px;font-weight:800;color:#FFD93D}
+
+/* DONE SCREEN */
+.done{text-align:center;padding:28px 14px}
+.done-em{font-size:52px;margin-bottom:9px}
+.done-t{font-family:'Syne',sans-serif;font-size:21px;font-weight:800;margin-bottom:5px}
+.done-s{color:rgba(255,255,255,.45);font-size:12px;font-weight:700;margin-bottom:8px}
+.done-sc{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;color:#FFD93D;margin-bottom:16px}
+
+.bigbtn{background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;border-radius:14px;padding:12px 0;color:white;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;width:100%;box-shadow:0 5px 18px rgba(124,58,237,.4);transition:all .15s;margin-top:8px}
+.bigbtn:active{transform:scale(.97)}
+
+.empty{text-align:center;padding:36px 14px;color:rgba(255,255,255,.3)}
+.empty-ic{font-size:40px;margin-bottom:9px}
+.empty-t{font-weight:800;font-size:13px}
+
+/* TOAST */
+.toast{position:fixed;top:13px;left:50%;transform:translateX(-50%) translateY(-80px);color:white;padding:8px 18px;border-radius:16px;font-weight:800;font-size:13px;z-index:9999;box-shadow:0 8px 22px rgba(0,0,0,.3);white-space:nowrap;transition:transform .3s cubic-bezier(.34,1.56,.64,1);max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* CONFETTI */
+.cpiece{position:fixed;pointer-events:none;z-index:9998;animation:cfal linear forwards}
+@keyframes cfal{from{transform:translateY(-20px) rotate(0deg);opacity:1}to{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(10,8,30,.97);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.07);display:flex;padding-bottom:max(6px,env(safe-area-inset-bottom));z-index:100;overflow-x:auto;scrollbar-width:none}
+.bnav::-webkit-scrollbar{display:none}
+.nbtn{flex:1;min-width:50px;border:none;background:none;cursor:pointer;padding:9px 0 3px;display:flex;flex-direction:column;align-items:center;gap:1px;color:rgba(255,255,255,.3);font-family:'Nunito',sans-serif;font-weight:800;font-size:9px;transition:color .2s}
+.nbtn.active{color:#a78bfa}
+.nbtn .ni{font-size:19px}
+
+/* SEARCH */
+.sf{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);border-radius:11px;padding:8px 13px;color:white;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;outline:none;margin-bottom:10px}
+.sf::placeholder{color:rgba(255,255,255,.3)}
+.sf:focus{border-color:#a78bfa}
 </style>
 </head>
 <body>
-
 <div class="toast" id="toast"></div>
-
 <div class="app">
-  <div class="header">
-    <div class="header-top">
-      <div class="logo">Word<span>Book</span> 📖</div>
-      <div class="badges">
-        <div class="badge" id="badge-total">📚 0 từ</div>
-        <div class="badge purple" id="badge-today">✨ +0 hôm nay</div>
-      </div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo" style="font-size:17px">🐿️ Học Tiếng Anh Cùng <span>Sóc Nhỏ</span></div>
+    <div class="hbadges">
+      <div class="hbadge hb-w" id="hb-total">📚 0</div>
+      <div class="hbadge hb-g" id="hb-score">🏆 0đ</div>
+      <div class="hbadge hb-y" id="hb-streak">🔥 0</div>
     </div>
-    <div class="subtitle">Thấy gì lạ → ghi vào → học lại mỗi ngày</div>
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('add')">➕ Thêm từ</button>
-      <button class="tab-btn" onclick="showTab('review')">🃏 Flashcard</button>
-      <button class="tab-btn" onclick="showTab('list')">📋 Danh sách</button>
+  </div>
+  <div class="subtitle">Nghe · Đọc · Viết · Giao tiếp · Trò chơi</div>
+
+  <!-- STREAK -->
+  <div class="streak-bar">
+    <div class="streak-fire">🔥</div>
+    <div class="streak-info">
+      <div class="streak-txt" id="streak-txt">Streak: 0 ngày liên tiếp!</div>
+      <div class="streak-sub" id="streak-sub">Học hôm nay để giữ streak nhé!</div>
+    </div>
+    <div class="streak-count" id="streak-count">0</div>
+  </div>
+
+  <!-- TIMER -->
+  <div class="timer-bar">
+    <div class="timer-left">
+      <div class="lbl">⏱️ Thời gian học hôm nay</div>
+      <div class="val" id="timer-val">00:00</div>
+    </div>
+    <div class="t-btns">
+      <button class="t-btn t-go" id="t-start" onclick="toggleTimer()">▶ Bắt đầu</button>
+      <button class="t-btn t-rst" onclick="resetTimer()">↺</button>
     </div>
   </div>
 
-  <div class="content">
-
-    <!-- TAB: ADD -->
-    <div class="section active" id="tab-add">
-      <div class="input-card">
-        <div class="free-badge">✅ Hoàn toàn miễn phí · Không cần đăng ký</div>
-        <div class="input-label">Nhập từ tiếng Anh hoặc tiếng Việt</div>
-        <div class="input-row">
-          <input class="word-input" id="word-input"
-            placeholder="vd: apple, con mèo, chạy nhanh..."
-            maxlength="80" onkeydown="if(event.key==='Enter') addWord()">
-          <button class="search-btn" id="search-btn" onclick="addWord()">🔍</button>
-        </div>
-        <div class="loading-row" id="loading-row"><div class="spinner"></div> Đang dịch...</div>
-        <div class="error-msg" id="error-msg"></div>
-      </div>
-
-      <div id="recent-section" style="display:none">
-        <div class="sec-label">MỚI THÊM GẦN ĐÂY</div>
-        <div id="recent-list"></div>
-        <button class="big-btn" id="review-btn" onclick="showTab('review')" style="display:none">🃏 Ôn từ ngay!</button>
-      </div>
-      <div class="empty" id="add-empty">
-        <div class="empty-icon">📭</div>
-        <div class="empty-text">Chưa có từ nào!</div>
-        <div style="font-size:12px;margin-top:6px;font-weight:600">Gõ từ bất kỳ vào ô trên để bắt đầu</div>
-      </div>
-    </div>
-
-    <!-- TAB: REVIEW -->
-    <div class="section" id="tab-review">
-      <div class="empty" id="review-empty" style="display:none">
-        <div class="empty-icon">📭</div>
-        <div class="empty-text">Chưa có từ để ôn!</div>
-        <button class="big-btn" onclick="showTab('add')" style="max-width:220px;margin:16px auto 0">➕ Thêm từ ngay</button>
-      </div>
-      <div class="done-screen" id="review-done" style="display:none">
-        <div class="done-emoji">🎉</div>
-        <div class="done-title">Ôn xong rồi!</div>
-        <div class="done-sub" id="done-sub">Bạn vừa ôn 0 từ. Giỏi lắm!</div>
-        <button class="big-btn" onclick="startReview()">🔄 Ôn lại từ đầu</button>
-      </div>
-      <div id="review-content">
-        <div class="card-progress-wrap">
-          <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-          <div class="progress-text" id="prog-text">0/0</div>
-        </div>
-        <div class="card-scene" onclick="flipCard()">
-          <div class="card-inner" id="card-inner">
-            <div class="card-face">
-              <div class="card-hint-label">TIẾNG ANH</div>
-              <div class="card-word" id="c-en">-</div>
-              <div class="card-phonetic-el" id="c-ph">-</div>
-              <button class="card-speak-btn" onclick="event.stopPropagation();speakCard()">🔊 Nghe phát âm</button>
-              <div class="card-tap-hint">Chạm để xem nghĩa →</div>
-            </div>
-            <div class="card-face card-back">
-              <div class="card-hint-label">TIẾNG VIỆT</div>
-              <div class="card-vi-el" id="c-vi">-</div>
-              <div class="divider"></div>
-              <div class="card-ex-el"><span style="color:#a78bfa;font-weight:800">Ví dụ: </span><span id="c-ex">-</span></div>
-              <div class="card-ex-vi-el" id="c-ex-vi">-</div>
-            </div>
-          </div>
-        </div>
-        <div id="ans-btns" style="display:none">
-          <div class="answer-btns">
-            <button class="answer-btn btn-again" onclick="answer('again')">😅 Học lại</button>
-            <button class="answer-btn btn-know"  onclick="answer('know')">✅ Thuộc rồi!</button>
-          </div>
-        </div>
-        <div class="flip-hint" id="flip-hint">Chạm vào thẻ để lật xem nghĩa</div>
-      </div>
-    </div>
-
-    <!-- TAB: LIST -->
-    <div class="section" id="tab-list">
-      <input class="search-filter" id="search-filter" placeholder="🔎 Tìm từ..." oninput="renderList()">
-      <div class="sec-label" id="list-label">TẤT CẢ 0 TỪ</div>
-      <div id="word-list"></div>
-      <div class="empty" id="list-empty" style="display:none">
-        <div class="empty-icon">📭</div>
-        <div class="empty-text">Không tìm thấy từ nào</div>
-      </div>
-    </div>
-
+  <div class="tab-row" id="tab-row">
+    <button class="tb active" onclick="showTab('add')">➕ Thêm</button>
+    <button class="tb" onclick="showTab('flash')">🃏 Flash</button>
+    <button class="tb" onclick="showTab('read')">📖 Đọc</button>
+    <button class="tb" onclick="showTab('daily')">🗣️ Giao tiếp</button>
+    <button class="tb" onclick="showTab('game')">🎮 Game</button>
+    <button class="tb" onclick="showTab('badges')">🏅 HH</button>
+    <button class="tb" onclick="showTab('list')">📋 Từ</button>
+    <button class="tb" onclick="showTab('parent')">👨‍👩‍👧 PH</button>
   </div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-btn active" id="nav-add" onclick="showTab('add')"><span class="nav-icon">➕</span>Thêm từ</button>
-  <button class="nav-btn" id="nav-review" onclick="showTab('review')"><span class="nav-icon">🃏</span>Flashcard</button>
-  <button class="nav-btn" id="nav-list" onclick="showTab('list')"><span class="nav-icon">📋</span>Danh sách</button>
+<div class="content">
+
+<!-- ═══ TAB: ADD ═══ -->
+<div class="sec active" id="tab-add">
+  <div class="card">
+    <div class="card-title">➕ Thêm từ mới <span style="font-size:10px;background:rgba(34,197,94,.2);color:#4ade80;border-radius:7px;padding:2px 7px">MIỄN PHÍ</span></div>
+    <div class="inp-row">
+      <input class="inp" id="word-input" placeholder="vd: apple, con mèo, run fast..." maxlength="80" onkeydown="if(event.key==='Enter')addWord()">
+      <button class="s-btn" id="search-btn" onclick="addWord()">🔍</button>
+    </div>
+    <div class="spin-row" id="spin-row"><div class="sp"></div> Đang dịch...</div>
+    <div class="err" id="err-msg"></div>
+  </div>
+  <div id="recent-sec" style="display:none">
+    <div class="sec-lbl">MỚI THÊM GẦN ĐÂY</div>
+    <div id="recent-list"></div>
+    <button class="bigbtn" id="start-study-btn" onclick="showTab('flash')" style="display:none">🃏 Ôn từ ngay!</button>
+  </div>
+  <div class="empty" id="add-empty">
+    <div class="empty-ic">📭</div>
+    <div class="empty-t">Chưa có từ nào!</div>
+    <div style="font-size:11px;margin-top:5px;font-weight:600">Gõ từ bất kỳ vào ô trên để bắt đầu</div>
+  </div>
+</div>
+
+<!-- ═══ TAB: FLASHCARD ═══ -->
+<div class="sec" id="tab-flash">
+  <div class="empty" id="fl-empty" style="display:none"><div class="empty-ic">📭</div><div class="empty-t">Chưa có từ!</div><button class="bigbtn" onclick="showTab('add')" style="max-width:180px;margin:10px auto 0">➕ Thêm từ</button></div>
+  <div id="fl-done" style="display:none">
+    <div class="done"><div class="done-em">🎉</div><div class="done-t">Ôn xong rồi!</div><div class="done-s" id="fl-done-sub">Bạn vừa ôn 0 từ</div><div class="done-sc" id="fl-done-sc">0/0</div><button class="bigbtn" onclick="startFlash()">🔄 Ôn lại</button></div>
+  </div>
+  <div id="fl-content">
+    <div class="fl-scores">
+      <div class="fl-sc"><div class="fl-sc-n" id="sc-k" style="color:#4ade80">0</div><div class="fl-sc-l">✅ Thuộc</div></div>
+      <div class="fl-sc"><div class="fl-sc-n" id="sc-a" style="color:#f87171">0</div><div class="fl-sc-l">😅 Học lại</div></div>
+      <div class="fl-sc"><div class="fl-sc-n" id="sc-l" style="color:#c4b5fd">0</div><div class="fl-sc-l">📚 Còn lại</div></div>
+    </div>
+    <div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" id="fl-prog" style="width:0%"></div></div><div class="prog-txt" id="fl-prog-t">0/0</div></div>
+    <div class="cscene" onclick="flipCard()">
+      <div class="cinner" id="cinner">
+        <div class="cface">
+          <div class="chint">TIẾNG ANH</div>
+          <div class="cword" id="cen">-</div>
+          <div class="cph" id="cph">-</div>
+          <button class="cspk" onclick="event.stopPropagation();speakCard()">🔊 Nghe phát âm</button>
+          <div class="ctap">Chạm để xem nghĩa →</div>
+        </div>
+        <div class="cface cback">
+          <div class="chint">TIẾNG VIỆT</div>
+          <div class="cvi" id="cvi">-</div>
+          <div class="cdiv"></div>
+          <div class="cex"><span style="color:#a78bfa;font-weight:800">Ví dụ: </span><span id="cex">-</span></div>
+          <div class="cexa" id="cexa">-</div>
+        </div>
+      </div>
+    </div>
+    <div id="abns" style="display:none"><div class="abns"><button class="abn abn-a" onclick="flashAns('again')">😅 Học lại</button><button class="abn abn-k" onclick="flashAns('know')">✅ Thuộc rồi!</button></div></div>
+    <div class="fhint" id="fhint">Chạm vào thẻ để lật xem nghĩa</div>
+  </div>
+</div>
+
+<!-- ═══ TAB: READING ═══ -->
+<div class="sec" id="tab-read">
+  <div class="empty" id="rd-empty" style="display:none"><div class="empty-ic">📖</div><div class="empty-t">Chưa có từ!</div><button class="bigbtn" onclick="showTab('add')" style="max-width:180px;margin:10px auto 0">➕ Thêm từ</button></div>
+  <div id="rd-content">
+    <div class="card" style="margin-bottom:10px">
+      <div class="rdot">
+        <div class="prog-txt" id="rd-prog-t">Câu 1/0</div>
+        <div style="font-size:11px;color:#FFD93D;font-weight:800" id="rd-total">Tổng: 0 ⭐</div>
+      </div>
+      <div class="prog-bar" style="height:5px"><div class="prog-fill" id="rd-prog" style="width:0%"></div></div>
+    </div>
+    <div class="rsen" id="rd-sen">
+      <div class="ren" id="rd-en">-</div>
+      <div class="rvi" id="rd-vi">-</div>
+      <div class="rbtns">
+        <button class="rb rb-l" onclick="listenSen()">🔊 Nghe mẫu</button>
+        <button class="rb rb-r" onclick="startRead()">🎤 Tôi đọc</button>
+      </div>
+      <div class="rscore-wrap" id="rd-score-wrap" style="display:none">
+        <div class="rscore-lbl">Kết quả:</div>
+        <div class="rstars" id="rd-stars">⭐⭐⭐</div>
+        <div class="rfb" id="rd-fb">Xuất sắc!</div>
+        <button class="bigbtn" onclick="readNext()" style="margin-top:9px">Tiếp theo →</button>
+      </div>
+    </div>
+    <div class="rnav">
+      <button class="rprev" onclick="readNav(-1)">← Trước</button>
+      <button class="rnext" onclick="readNav(1)">Tiếp →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TAB: DAILY CONVERSATION ═══ -->
+<div class="sec" id="tab-daily">
+  <div id="daily-topics">
+    <div class="sec-lbl">CHỌN CHỦ ĐỀ GIAO TIẾP</div>
+    <div class="topic-grid" id="topic-grid"></div>
+  </div>
+  <div id="daily-phrases" style="display:none">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <button onclick="backToTopics()" style="background:rgba(255,255,255,.1);border:none;border-radius:9px;padding:6px 12px;color:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Quay lại</button>
+      <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800" id="topic-title">Chủ đề</div>
+    </div>
+    <div id="phrase-list"></div>
+  </div>
+</div>
+
+<!-- ═══ TAB: MINI GAME ═══ -->
+<div class="sec" id="tab-game">
+  <div class="empty" id="gm-empty" style="display:none"><div class="empty-ic">🎮</div><div class="empty-t">Cần ít nhất 4 từ để chơi!</div><button class="bigbtn" onclick="showTab('add')" style="max-width:180px;margin:10px auto 0">➕ Thêm từ</button></div>
+  <div id="gm-content">
+    <div class="game-score-bar">
+      <div class="gsc"><div class="gsc-n" id="gm-right" style="color:#4ade80">0</div><div class="gsc-l">✅ Đúng</div></div>
+      <div class="gsc"><div class="gsc-n" id="gm-wrong" style="color:#f87171">0</div><div class="gsc-l">❌ Sai</div></div>
+      <div class="gsc"><div class="gsc-n" id="gm-pts" style="color:#FFD93D">0</div><div class="gsc-l">🏆 Điểm</div></div>
+    </div>
+    <div class="game-card">
+      <div class="game-question" id="gm-q">NGHĨA TIẾNG VIỆT CỦA TỪ NÀY LÀ GÌ?</div>
+      <div class="game-word" id="gm-word">-</div>
+      <div class="game-hint" id="gm-hint">-</div>
+      <div class="game-opts" id="gm-opts"></div>
+    </div>
+    <button class="bigbtn" onclick="nextGame()" id="gm-next" style="display:none">Câu tiếp theo →</button>
+    <button class="bigbtn" onclick="startGame()" id="gm-start">🎮 Bắt đầu chơi!</button>
+  </div>
+</div>
+
+<!-- ═══ TAB: BADGES ═══ -->
+<div class="sec" id="tab-badges">
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-title">🌙 Ôn tập buổi tối</div>
+    <div class="night-card" style="background:transparent;border:none;padding:0;margin-bottom:0;text-align:left">
+      <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:600;margin-bottom:10px">Ôn lại từ học hôm nay trước khi ngủ giúp nhớ lâu hơn 50%!</div>
+      <div id="night-words-preview" style="margin-bottom:10px"></div>
+      <button class="bigbtn" onclick="startNightReview()" id="night-btn" style="margin-top:0">🌙 Bắt đầu ôn tối</button>
+    </div>
+  </div>
+  <div class="remind-card">
+    <div class="remind-title">🔔 Nhắc nhở học mỗi ngày</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:600;margin-bottom:8px">Đặt giờ nhắc để không quên học!</div>
+    <div class="remind-row">
+      <input class="remind-inp" type="time" id="remind-time" value="20:00">
+      <button class="remind-btn remind-set" onclick="setReminder()">🔔 Bật nhắc</button>
+      <button class="remind-btn remind-off" onclick="offReminder()">Tắt</button>
+    </div>
+    <div style="font-size:11px;font-weight:700" id="remind-status"></div>
+  </div>
+  <div class="sec-lbl">🏅 HUY HIỆU CỦA BẠN</div>
+  <div class="badges-grid" id="badges-grid"></div>
+</div>
+
+<!-- ═══ TAB: LIST ═══ -->
+<div class="sec" id="tab-list">
+  <input class="sf" id="sf" placeholder="🔎 Tìm từ..." oninput="renderList()">
+  <div style="display:flex;gap:7px;margin-bottom:10px">
+    <button onclick="filterList('all')" id="f-all" style="flex:1;border:none;border-radius:9px;padding:6px 0;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;background:rgba(167,139,250,.4);color:#e9d5ff">Tất cả</button>
+    <button onclick="filterList('weak')" id="f-weak" style="flex:1;border:none;border-radius:9px;padding:6px 0;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)">😅 Từ yếu</button>
+    <button onclick="filterList('today')" id="f-today" style="flex:1;border:none;border-radius:9px;padding:6px 0;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)">📅 Hôm nay</button>
+  </div>
+  <div class="sec-lbl" id="list-lbl">TẤT CẢ 0 TỪ</div>
+  <div id="word-list"></div>
+  <div class="empty" id="list-empty" style="display:none"><div class="empty-ic">📭</div><div class="empty-t">Không tìm thấy</div></div>
+</div>
+
+<!-- ═══ TAB: PARENT ═══ -->
+<div class="sec" id="tab-parent">
+  <div class="sec-lbl">📊 BÁO CÁO HÔM NAY</div>
+  <div class="stats-grid">
+    <div class="scard gn"><div class="scard-n" id="p-time">0p</div><div class="scard-l">⏱️ Thời gian học</div></div>
+    <div class="scard bl"><div class="scard-n" id="p-words">0</div><div class="scard-l">📚 Tổng số từ</div></div>
+    <div class="scard yw"><div class="scard-n" id="p-score">0</div><div class="scard-l">🏆 Điểm hôm nay</div></div>
+    <div class="scard pu"><div class="scard-n" id="p-read">0</div><div class="scard-l">📖 Câu đã đọc</div></div>
+  </div>
+  <div class="sec-lbl">📅 BIỂU ĐỒ 7 NGÀY</div>
+  <div class="week-chart">
+    <div class="wbars" id="wbars"></div>
+    <div style="display:flex;gap:5px" id="wdays"></div>
+  </div>
+  <div class="sec-lbl">🗓️ LỊCH SỬ TỪNG NGÀY</div>
+  <div class="hist-card"><div id="hist-list"><div class="empty" style="padding:12px"><div class="empty-t">Chưa có lịch sử</div></div></div></div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /app -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="nbtn active" id="nav-add" onclick="showTab('add')"><span class="ni">➕</span>Thêm</button>
+  <button class="nbtn" id="nav-flash" onclick="showTab('flash')"><span class="ni">🃏</span>Flash</button>
+  <button class="nbtn" id="nav-read" onclick="showTab('read')"><span class="ni">📖</span>Đọc</button>
+  <button class="nbtn" id="nav-daily" onclick="showTab('daily')"><span class="ni">🗣️</span>Giao tiếp</button>
+  <button class="nbtn" id="nav-game" onclick="showTab('game')"><span class="ni">🎮</span>Game</button>
+  <button class="nbtn" id="nav-badges" onclick="showTab('badges')"><span class="ni">🏅</span>HH</button>
+  <button class="nbtn" id="nav-list" onclick="showTab('list')"><span class="ni">📋</span>Từ</button>
+  <button class="nbtn" id="nav-parent" onclick="showTab('parent')"><span class="ni">👨‍👩‍👧</span>PH</button>
 </nav>
 
 <script>
-// ── DATA ─────────────────────────────────────────────────────────────────────
-let words = [];
-try { words = JSON.parse(localStorage.getItem('wb3_words') || '[]'); } catch {}
-function save() { localStorage.setItem('wb3_words', JSON.stringify(words)); }
+// ══ DATA ══════════════════════════════════════════════════════════════════════
+let words=[];
+let stats={todayScore:0,todayWords:0,todayTime:0,todayRead:0,streak:0,lastDay:null,history:[],weekData:{},addedToday:0};
+try{words=JSON.parse(localStorage.getItem('wb5_words')||'[]');}catch{}
+try{const s=JSON.parse(localStorage.getItem('wb5_stats')||'null');if(s)stats=s;}catch{}
 
-// ── TRANSLATE (Google Translate free) ────────────────────────────────────────
-async function translate(text, from, to) {
-  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text)}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  return data[0].map(x => x[0]).join('');
-}
-
-function isVietnamese(text) {
-  return /[àáâãèéêìíòóôõùúýăđơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỷỹ]/i.test(text);
-}
-
-// Offline phonetic for common words
-const PHONETICS = {
-  apple:'ˈæp.əl',book:'bʊk',cat:'kæt',dog:'dɒɡ',fish:'fɪʃ',car:'kɑːr',
-  house:'haʊs',school:'skuːl',food:'fuːd',water:'ˈwɔː.tər',sun:'sʌn',
-  moon:'muːn',star:'stɑːr',tree:'triː',flower:'ˈflaʊ.ər',bird:'bɜːrd',
-  run:'rʌn',eat:'iːt',drink:'drɪŋk',sleep:'sliːp',read:'riːd',write:'raɪt',
-  speak:'spiːk',learn:'lɜːrn',study:'ˈstʌd.i',work:'wɜːrk',play:'pleɪ',
-  happy:'ˈhæp.i',sad:'sæd',good:'ɡʊd',bad:'bæd',big:'bɪɡ',small:'smɔːl',
-  beautiful:'ˈbjuː.tɪ.fəl',fast:'fæst',slow:'sloʊ',love:'lʌv',friend:'frend',
-  family:'ˈfæm.ɪ.li',money:'ˈmʌn.i',time:'taɪm',phone:'foʊn',table:'ˈteɪ.bəl',
-  computer:'kəmˈpjuː.tər',morning:'ˈmɔːr.nɪŋ',evening:'ˈiːv.nɪŋ',night:'naɪt',
-};
-
-function getPhonetic(word) {
-  return PHONETICS[word.toLowerCase()] || '/' + word.toLowerCase() + '/';
-}
-
-function makeExample(en, vi) {
-  const templates = [
-    [`I see a ${en} every day.`, `Tôi thấy ${vi} mỗi ngày.`],
-    [`This ${en} is very nice.`, `Cái ${vi} này rất đẹp.`],
-    [`She uses the ${en}.`, `Cô ấy dùng ${vi}.`],
-    [`The ${en} is on the table.`, `${vi.charAt(0).toUpperCase()+vi.slice(1)} ở trên bàn.`],
-    [`I want to buy a ${en}.`, `Tôi muốn mua một ${vi}.`],
-  ];
-  return templates[Math.floor(Math.random() * templates.length)];
-}
-
-// ── ADD WORD ─────────────────────────────────────────────────────────────────
-async function addWord() {
-  const raw = document.getElementById('word-input').value.trim();
-  if (!raw) return;
-  setLoading(true);
-  try {
-    let english, vietnamese;
-    if (isVietnamese(raw)) {
-      vietnamese = raw;
-      english = await translate(raw, 'vi', 'en');
-    } else {
-      english = raw;
-      vietnamese = await translate(raw, 'en', 'vi');
+const TODAY=new Date().toDateString();
+if(stats.lastDay!==TODAY){
+  if(stats.lastDay){
+    const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+    if(stats.lastDay===yesterday.toDateString()&&stats.todayTime>0) stats.streak++;
+    else if(stats.todayTime===0) stats.streak=0;
+    if(stats.todayTime>0||stats.todayWords>0){
+      stats.history.unshift({date:stats.lastDay,time:stats.todayTime,words:stats.todayWords,score:stats.todayScore,read:stats.todayRead,added:stats.addedToday});
+      if(stats.history.length>30)stats.history.pop();
+      stats.weekData[stats.lastDay]=stats.todayTime;
     }
-    english = english.trim();
-    vietnamese = vietnamese.trim();
-
-    if (words.find(w => w.english.toLowerCase() === english.toLowerCase())) {
-      showToast('Từ này đã có rồi! 😄', '#f59e0b');
-      setLoading(false); return;
-    }
-
-    const phonetic = getPhonetic(english);
-    const [ex, ex_vi] = makeExample(english, vietnamese);
-    const newWord = { id: Date.now(), english, vietnamese, phonetic, example: ex, example_vi: ex_vi, addedAt: new Date().toISOString() };
-    words = [newWord, ...words];
-    save();
-    document.getElementById('word-input').value = '';
-    speak(english);
-    showToast(`✅ Đã thêm "${english}"!`);
-    renderAll();
-  } catch(e) {
-    showError('❌ Lỗi kết nối! Cần có internet để dịch từ.');
   }
-  setLoading(false);
+  stats.todayScore=0;stats.todayTime=0;stats.todayRead=0;stats.addedToday=0;
+  stats.lastDay=TODAY;
+}
+function saveAll(){localStorage.setItem('wb5_words',JSON.stringify(words));localStorage.setItem('wb5_stats',JSON.stringify(stats));}
+
+// ══ TIMER ════════════════════════════════════════════════════════════════════
+let timerOn=false,timerIv=null,timerStart=null,timerSecs=stats.todayTime;
+function updateTimerDisplay(){const m=Math.floor(timerSecs/60).toString().padStart(2,'0'),s=(timerSecs%60).toString().padStart(2,'0');document.getElementById('timer-val').textContent=`${m}:${s}`;}
+updateTimerDisplay();
+function toggleTimer(){timerOn?stopTimer():startTimerFn();}
+function startTimerFn(){timerOn=true;timerStart=Date.now();document.getElementById('t-start').textContent='⏸ Dừng';document.getElementById('t-start').className='t-btn t-stop';timerIv=setInterval(()=>{const e=Math.floor((Date.now()-timerStart)/1000);const t=timerSecs+e;const m=Math.floor(t/60).toString().padStart(2,'0'),s=(t%60).toString().padStart(2,'0');document.getElementById('timer-val').textContent=`${m}:${s}`;},1000);}
+function stopTimer(){if(!timerOn)return;timerOn=false;clearInterval(timerIv);timerSecs+=Math.floor((Date.now()-timerStart)/1000);stats.todayTime=timerSecs;saveAll();document.getElementById('t-start').textContent='▶ Bắt đầu';document.getElementById('t-start').className='t-btn t-go';updateParent();}
+function resetTimer(){stopTimer();timerSecs=0;stats.todayTime=0;saveAll();updateTimerDisplay();updateParent();}
+
+// ══ TRANSLATE ════════════════════════════════════════════════════════════════
+async function translate(t,f,to){const r=await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${f}&tl=${to}&dt=t&q=${encodeURIComponent(t)}`);const d=await r.json();return d[0].map(x=>x[0]).join('');}
+function isVi(t){return /[àáâãèéêìíòóôõùúýăđơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỷỹ]/i.test(t);}
+const PH={apple:'ˈæp.əl',book:'bʊk',cat:'kæt',dog:'dɒɡ',fish:'fɪʃ',car:'kɑːr',house:'haʊs',school:'skuːl',food:'fuːd',water:'ˈwɔː.tər',sun:'sʌn',moon:'muːn',tree:'triː',bird:'bɜːrd',run:'rʌn',eat:'iːt',drink:'drɪŋk',sleep:'sliːp',read:'riːd',write:'raɪt',speak:'spiːk',learn:'lɜːrn',study:'ˈstʌd.i',work:'wɜːrk',play:'pleɪ',happy:'ˈhæp.i',sad:'sæd',good:'ɡʊd',bad:'bæd',big:'bɪɡ',small:'smɔːl',beautiful:'ˈbjuː.tɪ.fəl',fast:'fæst',love:'lʌv',friend:'frend',family:'ˈfæm.ɪ.li',money:'ˈmʌn.i',time:'taɪm',phone:'foʊn',table:'ˈteɪ.bəl',computer:'kəmˈpjuː.tər',morning:'ˈmɔːr.nɪŋ',night:'naɪt'};
+function getPH(w){return PH[w.toLowerCase()]||'/'+w.toLowerCase()+'/';}
+function makeEx(en,vi){const t=[[`I see a ${en} every day.`,`Tôi thấy ${vi} mỗi ngày.`],[`This ${en} is very nice.`,`Cái ${vi} này rất đẹp.`],[`She uses the ${en}.`,`Cô ấy dùng ${vi}.`],[`The ${en} is on the table.`,`${vi.charAt(0).toUpperCase()+vi.slice(1)} ở trên bàn.`],[`I want to learn about ${en}.`,`Tôi muốn học về ${vi}.`]];return t[Math.floor(Math.random()*t.length)];}
+
+// ══ ADD WORD ═════════════════════════════════════════════════════════════════
+async function addWord(){
+  const raw=document.getElementById('word-input').value.trim();if(!raw)return;
+  setLoad(true);
+  try{
+    let en,vi;if(isVi(raw)){vi=raw;en=await translate(raw,'vi','en');}else{en=raw;vi=await translate(raw,'en','vi');}
+    en=en.trim();vi=vi.trim();
+    if(words.find(w=>w.english.toLowerCase()===en.toLowerCase())){showToast('Từ này đã có rồi! 😄','#f59e0b');setLoad(false);return;}
+    const[ex,ex_vi]=makeEx(en,vi);
+    const nw={id:Date.now(),english:en,vietnamese:vi,phonetic:getPH(en),example:ex,example_vi:ex_vi,addedAt:new Date().toISOString(),missCount:0,knowCount:0};
+    words=[nw,...words];stats.todayScore+=5;stats.addedToday++;
+    saveAll();document.getElementById('word-input').value='';
+    speak(en);showToast(`✅ Đã thêm "${en}"! +5đ`);
+    renderAll();checkBadges();
+  }catch(e){showErr('❌ Lỗi kết nối! Cần có internet.');}
+  setLoad(false);
+}
+function setLoad(on){document.getElementById('spin-row').classList.toggle('show',on);document.getElementById('search-btn').disabled=on;document.getElementById('err-msg').classList.remove('show');}
+function showErr(m){const e=document.getElementById('err-msg');e.textContent=m;e.classList.add('show');}
+
+// ══ FLASHCARD ════════════════════════════════════════════════════════════════
+let fq=[],fi=0,fflip=false,fans=false,fknow=0,fagain=0;
+function startFlash(){
+  if(!words.length){show('fl-empty');hide('fl-content');hide('fl-done');return;}
+  // Prioritize weak words
+  const weak=words.filter(w=>w.missCount>w.knowCount);
+  const rest=words.filter(w=>w.missCount<=w.knowCount);
+  fq=[...weak,...rest].sort(()=>Math.random()-.5);
+  fi=0;fflip=false;fans=false;fknow=0;fagain=0;
+  hide('fl-empty');hide('fl-done');show('fl-content');
+  renderFC();
+}
+function renderFC(){
+  const w=fq[fi];
+  document.getElementById('cen').textContent=w.english;
+  document.getElementById('cph').textContent=w.phonetic;
+  document.getElementById('cvi').textContent=w.vietnamese;
+  document.getElementById('cex').textContent=w.example;
+  document.getElementById('cexa').textContent='→ '+w.example_vi;
+  const pct=((fi+1)/fq.length)*100;
+  document.getElementById('fl-prog').style.width=pct+'%';
+  document.getElementById('fl-prog-t').textContent=`${fi+1}/${fq.length}`;
+  document.getElementById('sc-k').textContent=fknow;
+  document.getElementById('sc-a').textContent=fagain;
+  document.getElementById('sc-l').textContent=fq.length-fi-1;
+  fflip=false;fans=false;
+  document.getElementById('cinner').classList.remove('flip');
+  document.getElementById('abns').style.display='none';
+  document.getElementById('fhint').style.display='block';
+  document.querySelectorAll('.abn').forEach(b=>b.classList.remove('sel'));
+}
+function flipCard(){if(fflip)return;fflip=true;document.getElementById('cinner').classList.add('flip');document.getElementById('abns').style.display='block';document.getElementById('fhint').style.display='none';speak(fq[fi]?.english);}
+function speakCard(){speak(fq[fi]?.english);}
+function flashAns(type){
+  if(fans)return;fans=true;
+  const w=fq[fi];
+  if(type==='know'){fknow++;w.knowCount=(w.knowCount||0)+1;stats.todayScore+=10;}
+  else{fagain++;w.missCount=(w.missCount||0)+1;}
+  document.querySelector(type==='know'?'.abn-k':'.abn-a').classList.add('sel');
+  saveAll();updateHBadges();
+  setTimeout(()=>{
+    if(fi+1>=fq.length){
+      hide('fl-content');show('fl-done');
+      document.getElementById('fl-done-sub').textContent=`Bạn vừa ôn ${fq.length} từ`;
+      document.getElementById('fl-done-sc').textContent=`${fknow}/${fq.length} thuộc ✅`;
+      stats.todayScore+=fknow*2;saveAll();updateParent();checkBadges();
+      showToast(`🎉 +${fknow*10}đ buổi này!`,'#7c3aed');confetti();
+    }else{fi++;renderFC();}
+  },500);
 }
 
-function setLoading(on) {
-  document.getElementById('loading-row').classList.toggle('show', on);
-  document.getElementById('search-btn').disabled = on;
-  document.getElementById('error-msg').classList.remove('show');
+// ══ READING ══════════════════════════════════════════════════════════════════
+let rIdx=0,rScores=[];
+const RFB=[{stars:'⭐⭐⭐',msg:'Xuất sắc! Phát âm rất chuẩn! 🎉',pts:15},{stars:'⭐⭐',msg:'Tốt lắm! Cố gắng thêm! 💪',pts:10},{stars:'⭐',msg:'Tiếp tục luyện tập nhé! 📚',pts:5}];
+function startReadTab(){
+  if(!words.length){show('rd-empty');hide('rd-content');return;}
+  hide('rd-empty');show('rd-content');rIdx=0;rScores=[];renderRS();
 }
-function showError(msg) {
-  const el = document.getElementById('error-msg');
-  el.textContent = msg; el.classList.add('show');
+function renderRS(){
+  const w=words[rIdx%words.length];
+  const hl=w.example.replace(new RegExp('\\b'+w.english+'\\b','gi'),`<span class="rhl">${w.english}</span>`);
+  document.getElementById('rd-en').innerHTML=hl;
+  document.getElementById('rd-vi').textContent=w.example_vi;
+  document.getElementById('rd-score-wrap').style.display='none';
+  const total=rScores.reduce((a,b)=>a+b,0);
+  document.getElementById('rd-prog').style.width=`${(rIdx/words.length)*100}%`;
+  document.getElementById('rd-prog-t').textContent=`Câu ${rIdx+1}/${words.length}`;
+  document.getElementById('rd-total').textContent=`Tổng: ${total} ⭐`;
+}
+function listenSen(){speak(words[rIdx%words.length].example);showToast('🔊 Đang phát âm...','#7c3aed');}
+function startRead(){
+  if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){showManualScore();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const r=new SR();r.lang='en-US';r.interimResults=false;
+  showToast('🎤 Đang nghe... Hãy đọc to!','#22c55e');
+  r.onresult=e=>{const said=e.results[0][0].transcript.toLowerCase();const target=words[rIdx%words.length].example.toLowerCase();showReadScore(calcSim(said,target));};
+  r.onerror=()=>{showToast('⚠️ Không nghe được, tự chấm nhé!','#f59e0b');showManualScore();};
+  r.start();
+}
+function calcSim(a,b){const wa=a.split(' '),wb=b.split(' ');const c=wa.filter(w=>wb.includes(w)).length;const r=c/Math.max(wa.length,wb.length);if(r>=0.65)return 0;if(r>=0.35)return 1;return 2;}
+function showManualScore(){
+  document.getElementById('rd-score-wrap').style.display='block';
+  document.getElementById('rd-stars').textContent='Tự đánh giá:';
+  document.getElementById('rd-fb').innerHTML=`<div style="display:flex;gap:7px;justify-content:center;margin-top:7px"><button onclick="doReadScore(0)" style="background:rgba(34,197,94,.25);border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:7px 12px;color:#4ade80;font-weight:800;font-size:12px;cursor:pointer;font-family:'Nunito',sans-serif">⭐⭐⭐ Tốt</button><button onclick="doReadScore(1)" style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.3);border-radius:9px;padding:7px 12px;color:#fbbf24;font-weight:800;font-size:12px;cursor:pointer;font-family:'Nunito',sans-serif">⭐⭐ Ổn</button><button onclick="doReadScore(2)" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:9px;padding:7px 12px;color:#f87171;font-weight:800;font-size:12px;cursor:pointer;font-family:'Nunito',sans-serif">⭐ Cần luyện</button></div>`;
+}
+function doReadScore(i){showReadScore(i);}
+function showReadScore(i){
+  const fb=RFB[i];
+  document.getElementById('rd-score-wrap').style.display='block';
+  document.getElementById('rd-stars').textContent=fb.stars;
+  document.getElementById('rd-fb').textContent=fb.msg;
+  rScores.push(fb.pts);stats.todayScore+=fb.pts;stats.todayRead++;
+  saveAll();updateHBadges();updateParent();checkBadges();
+  showToast(`${fb.stars} +${fb.pts}đ`,'#7c3aed');
+}
+function readNext(){document.getElementById('rd-score-wrap').style.display='none';rIdx++;if(rIdx>=words.length)rIdx=0;renderRS();}
+function readNav(d){document.getElementById('rd-score-wrap').style.display='none';rIdx=Math.max(0,Math.min(words.length-1,rIdx+d));renderRS();}
+
+// ══ DAILY CONVERSATION ═══════════════════════════════════════════════════════
+const TOPICS=[
+  {id:'greeting',icon:'👋',name:'Chào hỏi',phrases:[
+    {en:'Good morning! How are you?',vi:'Chào buổi sáng! Bạn có khỏe không?'},
+    {en:'I\'m fine, thank you!',vi:'Tôi khỏe, cảm ơn!'},
+    {en:'Nice to meet you.',vi:'Rất vui được gặp bạn.'},
+    {en:'What\'s your name?',vi:'Tên bạn là gì?'},
+    {en:'My name is...',vi:'Tên tôi là...'},
+    {en:'Where are you from?',vi:'Bạn đến từ đâu?'},
+    {en:'See you later!',vi:'Hẹn gặp lại!'},
+    {en:'Have a good day!',vi:'Chúc bạn một ngày tốt lành!'},
+  ]},
+  {id:'shopping',icon:'🛍️',name:'Mua sắm',phrases:[
+    {en:'How much is this?',vi:'Cái này bao nhiêu tiền?'},
+    {en:'That\'s too expensive.',vi:'Đắt quá.'},
+    {en:'Can I get a discount?',vi:'Bạn có thể giảm giá không?'},
+    {en:'I\'ll take this one.',vi:'Tôi sẽ lấy cái này.'},
+    {en:'Do you have a smaller size?',vi:'Bạn có size nhỏ hơn không?'},
+    {en:'Where is the fitting room?',vi:'Phòng thử đồ ở đâu?'},
+    {en:'Can I pay by card?',vi:'Tôi có thể trả bằng thẻ không?'},
+    {en:'Do you have this in blue?',vi:'Bạn có màu xanh không?'},
+  ]},
+  {id:'restaurant',icon:'🍽️',name:'Nhà hàng',phrases:[
+    {en:'A table for two, please.',vi:'Cho tôi một bàn cho hai người.'},
+    {en:'What do you recommend?',vi:'Bạn gợi ý món gì?'},
+    {en:'I\'ll have the same.',vi:'Tôi sẽ gọi món đó.'},
+    {en:'The bill, please.',vi:'Cho tôi hóa đơn.'},
+    {en:'Is this spicy?',vi:'Món này có cay không?'},
+    {en:'I\'m allergic to nuts.',vi:'Tôi bị dị ứng với đậu phộng.'},
+    {en:'This is delicious!',vi:'Món này ngon lắm!'},
+    {en:'Can I have more water?',vi:'Cho tôi thêm nước được không?'},
+  ]},
+  {id:'direction',icon:'🗺️',name:'Hỏi đường',phrases:[
+    {en:'Excuse me, where is the station?',vi:'Xin lỗi, ga tàu ở đâu?'},
+    {en:'Turn left at the corner.',vi:'Rẽ trái tại góc đường.'},
+    {en:'Go straight ahead.',vi:'Đi thẳng về phía trước.'},
+    {en:'How far is it?',vi:'Bao xa?'},
+    {en:'Is it within walking distance?',vi:'Có thể đi bộ được không?'},
+    {en:'Take the second right.',vi:'Rẽ phải lần thứ hai.'},
+    {en:'I\'m lost.',vi:'Tôi bị lạc đường.'},
+    {en:'Can you show me on the map?',vi:'Bạn có thể chỉ cho tôi trên bản đồ không?'},
+  ]},
+  {id:'school',icon:'🏫',name:'Ở trường',phrases:[
+    {en:'May I go to the bathroom?',vi:'Thưa thầy/cô, em có thể ra ngoài không?'},
+    {en:'I don\'t understand.',vi:'Em không hiểu.'},
+    {en:'Can you repeat that?',vi:'Thầy/cô có thể nhắc lại không?'},
+    {en:'What is the homework?',vi:'Bài tập về nhà là gì?'},
+    {en:'I have a question.',vi:'Em có một câu hỏi.'},
+    {en:'When is the test?',vi:'Bài kiểm tra khi nào?'},
+    {en:'Can I borrow a pen?',vi:'Cho tôi mượn bút được không?'},
+    {en:'Let\'s study together.',vi:'Chúng ta cùng học nhé.'},
+  ]},
+  {id:'hospital',icon:'🏥',name:'Bệnh viện',phrases:[
+    {en:'I don\'t feel well.',vi:'Tôi không khỏe.'},
+    {en:'I have a headache.',vi:'Tôi bị đau đầu.'},
+    {en:'Where does it hurt?',vi:'Đau ở đâu?'},
+    {en:'I need to see a doctor.',vi:'Tôi cần gặp bác sĩ.'},
+    {en:'I\'m allergic to this medicine.',vi:'Tôi bị dị ứng với thuốc này.'},
+    {en:'How many times a day?',vi:'Ngày mấy lần?'},
+    {en:'I have a fever.',vi:'Tôi bị sốt.'},
+    {en:'Take this medicine after meals.',vi:'Uống thuốc này sau bữa ăn.'},
+  ]},
+];
+
+let savedPhrases={};
+try{savedPhrases=JSON.parse(localStorage.getItem('wb5_phrases')||'{}');}catch{}
+function savePhrases(){localStorage.setItem('wb5_phrases',JSON.stringify(savedPhrases));}
+
+function renderTopics(){
+  const g=document.getElementById('topic-grid');
+  g.innerHTML=TOPICS.map(t=>`<div class="topic-card" onclick="openTopic('${t.id}')">
+    <div class="topic-icon">${t.icon}</div>
+    <div class="topic-name">${t.name}</div>
+    <div class="topic-count">${t.phrases.length} câu</div>
+  </div>`).join('');
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
-function wordCardHTML(w) {
-  const date = new Date(w.addedAt).toLocaleDateString('vi-VN');
-  const safe = w.english.replace(/'/g,"\\'").replace(/"/g,'&quot;');
-  return `<div class="word-card">
-    <div class="word-card-top">
-      <div class="word-info">
-        <div class="word-en">${w.english}</div>
-        <div class="word-phonetic">${w.phonetic}</div>
-        <div class="word-vi">${w.vietnamese}</div>
-        <div class="word-ex"><span style="color:#a78bfa;font-weight:800">Ví dụ: </span>${w.example}<br>
-          <span style="color:rgba(255,255,255,.25)">→ ${w.example_vi}</span></div>
+function openTopic(id){
+  const t=TOPICS.find(x=>x.id===id);if(!t)return;
+  document.getElementById('daily-topics').style.display='none';
+  document.getElementById('daily-phrases').style.display='block';
+  document.getElementById('topic-title').textContent=t.icon+' '+t.name;
+  document.getElementById('phrase-list').innerHTML=t.phrases.map((p,i)=>{
+    const key=id+'_'+i;
+    const done=savedPhrases[key];
+    return `<div class="phrase-card" id="pc-${key}">
+      <div class="phrase-en">${p.en}</div>
+      <div class="phrase-vi">${p.vi}</div>
+      <div class="phrase-btns">
+        <button class="pbtn pb-sp" onclick="speakPhrase('${p.en.replace(/'/g,"\\'")}')">🔊 Nghe</button>
+        <button class="pbtn pb-add ${done?'done':''}" id="padd-${key}" onclick="addPhrase('${id}',${i},'${p.en.replace(/'/g,"\\'")}','${p.vi.replace(/'/g,"\\'")}')">
+          ${done?'✅ Đã học':'➕ Lưu từ'}
+        </button>
       </div>
-      <div class="word-actions">
-        <button class="icon-btn btn-speak" onclick="speak('${safe}')">🔊</button>
-        <button class="icon-btn btn-del" onclick="deleteWord(${w.id})">🗑️</button>
-      </div>
-    </div>
-    <div class="word-date">Thêm ngày ${date}</div>
-  </div>`;
+    </div>`;
+  }).join('');
 }
 
-function renderAll() {
-  const today = new Date().toDateString();
-  const tc = words.filter(w => new Date(w.addedAt).toDateString() === today).length;
-  document.getElementById('badge-total').textContent = `📚 ${words.length} từ`;
-  document.getElementById('badge-today').textContent = `✨ +${tc} hôm nay`;
-  document.getElementById('add-empty').style.display = words.length === 0 ? 'block' : 'none';
-  document.getElementById('recent-section').style.display = words.length > 0 ? 'block' : 'none';
-  document.getElementById('recent-list').innerHTML = words.slice(0,3).map(wordCardHTML).join('');
-  const rb = document.getElementById('review-btn');
-  rb.style.display = words.length > 0 ? 'block' : 'none';
-  rb.textContent = `🃏 Ôn ${words.length} từ ngay!`;
+function backToTopics(){document.getElementById('daily-topics').style.display='block';document.getElementById('daily-phrases').style.display='none';}
+
+async function addPhrase(topicId,i,en,vi){
+  const key=topicId+'_'+i;
+  if(savedPhrases[key]){showToast('Câu này đã lưu rồi!','#f59e0b');return;}
+  if(words.find(w=>w.english.toLowerCase()===en.toLowerCase())){
+    savedPhrases[key]=true;savePhrases();
+    document.getElementById('padd-'+key).textContent='✅ Đã học';
+    document.getElementById('padd-'+key).classList.add('done');
+    showToast('Câu này đã có trong từ điển!','#f59e0b');return;
+  }
+  const[ex,ex_vi]=makeEx(en.split(' ')[0],vi.split(' ')[0]);
+  const nw={id:Date.now(),english:en,vietnamese:vi,phonetic:getPH(en.split(' ')[0]),example:ex,example_vi:ex_vi,addedAt:new Date().toISOString(),missCount:0,knowCount:0};
+  words=[nw,...words];savedPhrases[key]=true;stats.todayScore+=3;stats.addedToday++;
+  saveAll();savePhrases();
+  document.getElementById('padd-'+key).textContent='✅ Đã học';
+  document.getElementById('padd-'+key).classList.add('done');
+  speak(en);showToast(`✅ Đã lưu câu! +3đ`);
+  renderAll();checkBadges();
+}
+function speakPhrase(t){speak(t);}
+
+// ══ MINI GAME ════════════════════════════════════════════════════════════════
+let gmRight=0,gmWrong=0,gmPts=0,gmAnswered=false,gmCur=null;
+function startGame(){
+  if(words.length<4){show('gm-empty');hide('gm-content');return;}
+  hide('gm-empty');show('gm-content');
+  gmRight=0;gmWrong=0;gmPts=0;gmAnswered=false;
+  document.getElementById('gm-start').style.display='none';
+  document.getElementById('gm-next').style.display='none';
+  document.getElementById('gm-right').textContent=0;
+  document.getElementById('gm-wrong').textContent=0;
+  document.getElementById('gm-pts').textContent=0;
+  nextGame();
+}
+function nextGame(){
+  gmAnswered=false;
+  document.getElementById('gm-next').style.display='none';
+  document.getElementById('gm-start').style.display='none';
+  // Random question type
+  const type=Math.random()>.5?'vi':'en';
+  const shuffled=[...words].sort(()=>Math.random()-.5);
+  gmCur=shuffled[0];
+  const wrongs=shuffled.slice(1,4);
+  const allOpts=[gmCur,...wrongs].sort(()=>Math.random()-.5);
+  if(type==='vi'){
+    document.getElementById('gm-q').textContent='NGHĨA TIẾNG VIỆT CỦA TỪ NÀY LÀ GÌ?';
+    document.getElementById('gm-word').textContent=gmCur.english;
+    document.getElementById('gm-hint').textContent=gmCur.phonetic;
+    document.getElementById('gm-opts').innerHTML=allOpts.map(o=>`<button class="game-opt" onclick="checkAns(this,'${o.id}','${gmCur.id}','vi')">${o.vietnamese}</button>`).join('');
+  }else{
+    document.getElementById('gm-q').textContent='TIẾNG ANH CỦA CỤM TỪ NÀY LÀ GÌ?';
+    document.getElementById('gm-word').textContent=gmCur.vietnamese;
+    document.getElementById('gm-hint').textContent='Chọn từ tiếng Anh đúng';
+    document.getElementById('gm-opts').innerHTML=allOpts.map(o=>`<button class="game-opt" onclick="checkAns(this,'${o.id}','${gmCur.id}','en')">${o.english}</button>`).join('');
+  }
+  speak(gmCur.english);
+}
+function checkAns(btn,chosen,correct,type){
+  if(gmAnswered)return;gmAnswered=true;
+  const isRight=chosen===correct;
+  if(isRight){gmRight++;gmPts+=10;stats.todayScore+=10;btn.classList.add('correct');showToast('✅ Đúng rồi! +10đ','#22c55e');}
+  else{gmWrong++;btn.classList.add('wrong');const cb=document.querySelector(`.game-opt[onclick*="${correct}"]`);if(cb)cb.classList.add('correct');showToast('❌ Sai rồi! Cố lên!','#ef4444');}
+  document.querySelectorAll('.game-opt').forEach(b=>b.classList.add('disabled'));
+  document.getElementById('gm-right').textContent=gmRight;
+  document.getElementById('gm-wrong').textContent=gmWrong;
+  document.getElementById('gm-pts').textContent=gmPts;
+  saveAll();updateHBadges();checkBadges();
+  setTimeout(()=>document.getElementById('gm-next').style.display='block',600);
+}
+
+// ══ BADGES ═══════════════════════════════════════════════════════════════════
+const BADGES=[
+  {id:'first',icon:'🌱',name:'Bước đầu',desc:'Thêm từ đầu tiên',check:()=>words.length>=1},
+  {id:'w10',icon:'📚',name:'10 từ',desc:'Học 10 từ',check:()=>words.length>=10},
+  {id:'w50',icon:'📖',name:'50 từ',desc:'Học 50 từ',check:()=>words.length>=50},
+  {id:'w100',icon:'🎓',name:'100 từ',desc:'Học 100 từ',check:()=>words.length>=100},
+  {id:'streak3',icon:'🔥',name:'3 ngày liên tiếp',desc:'Streak 3 ngày',check:()=>stats.streak>=3},
+  {id:'streak7',icon:'🌟',name:'1 tuần liên tiếp',desc:'Streak 7 ngày',check:()=>stats.streak>=7},
+  {id:'score100',icon:'🏆',name:'100 điểm',desc:'Đạt 100 điểm',check:()=>stats.todayScore>=100},
+  {id:'read10',icon:'🎤',name:'Đọc 10 câu',desc:'Đọc 10 câu',check:()=>stats.todayRead>=10},
+  {id:'game5',icon:'🎮',name:'Game thủ',desc:'Đúng 5 câu game',check:()=>gmRight>=5},
+  {id:'daily1',icon:'🗣️',name:'Giao tiếp',desc:'Lưu 1 câu giao tiếp',check:()=>Object.keys(savedPhrases).length>=1},
+  {id:'daily10',icon:'💬',name:'Giao tiếp Pro',desc:'Lưu 10 câu giao tiếp',check:()=>Object.keys(savedPhrases).length>=10},
+  {id:'perfect',icon:'💎',name:'Hoàn hảo',desc:'Thuộc hết 1 buổi flash',check:()=>fknow>0&&fagain===0&&fq.length>0},
+];
+let earnedBadges={};
+try{earnedBadges=JSON.parse(localStorage.getItem('wb5_badges')||'{}');}catch{}
+
+function checkBadges(){
+  let newBadge=false;
+  BADGES.forEach(b=>{
+    if(!earnedBadges[b.id]&&b.check()){earnedBadges[b.id]=true;newBadge=true;showToast(`🏅 Huy hiệu mới: ${b.name}!`,'#FFD93D');confetti();}
+  });
+  if(newBadge){localStorage.setItem('wb5_badges',JSON.stringify(earnedBadges));renderBadges();}
+}
+function renderBadges(){
+  document.getElementById('badges-grid').innerHTML=BADGES.map(b=>{
+    const e=earnedBadges[b.id];
+    return `<div class="bdg ${e?'earned':'locked'}">
+      <div class="bdg-icon">${b.icon}</div>
+      <div class="bdg-name">${b.name}</div>
+      <div class="bdg-prog">${e?'✅ Đã đạt':b.desc}</div>
+    </div>`;
+  }).join('');
+  // Night review preview
+  const today=new Date().toDateString();
+  const tw=words.filter(w=>new Date(w.addedAt).toDateString()===today);
+  const nw=document.getElementById('night-words-preview');
+  if(tw.length>0){
+    nw.innerHTML=`<div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:6px">Từ học hôm nay (${tw.length} từ):</div>`+tw.slice(0,4).map(w=>`<span style="background:rgba(167,139,250,.2);border-radius:8px;padding:3px 9px;font-size:11px;font-weight:800;color:#c4b5fd;margin:2px;display:inline-block">${w.english}</span>`).join('');
+  }else{nw.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.3);font-weight:600">Hôm nay chưa thêm từ nào.</div>';}
+}
+
+// Night review = flash only today's words
+function startNightReview(){
+  const today=new Date().toDateString();
+  const tw=words.filter(w=>new Date(w.addedAt).toDateString()===today);
+  if(!tw.length){showToast('Hôm nay chưa học từ nào!','#f59e0b');return;}
+  fq=[...tw].sort(()=>Math.random()-.5);
+  fi=0;fflip=false;fans=false;fknow=0;fagain=0;
+  hide('fl-empty');hide('fl-done');show('fl-content');
+  renderFC();showTab('flash');
+  showToast('🌙 Ôn tập buổi tối bắt đầu!','#7c3aed');
+}
+
+// ══ REMINDER ════════════════════════════════════════════════════════════════
+let remindTimer=null;
+function setReminder(){
+  const t=document.getElementById('remind-time').value;
+  if(!t){showToast('Chọn giờ trước nhé!','#f59e0b');return;}
+  localStorage.setItem('wb5_remind',t);
+  document.getElementById('remind-status').textContent=`✅ Đã bật nhắc lúc ${t} mỗi ngày`;
+  document.getElementById('remind-status').style.color='#4ade80';
+  scheduleReminder(t);showToast(`🔔 Bật nhắc lúc ${t}!`);
+}
+function offReminder(){
+  localStorage.removeItem('wb5_remind');clearTimeout(remindTimer);
+  document.getElementById('remind-status').textContent='🔕 Đã tắt nhắc nhở';
+  document.getElementById('remind-status').style.color='rgba(255,255,255,.4)';
+  showToast('Đã tắt nhắc nhở','#ef4444');
+}
+function scheduleReminder(t){
+  clearTimeout(remindTimer);
+  const[h,m]=t.split(':').map(Number);
+  const now=new Date();const target=new Date();
+  target.setHours(h,m,0,0);
+  if(target<=now)target.setDate(target.getDate()+1);
+  const diff=target-now;
+  remindTimer=setTimeout(()=>{
+    if(Notification.permission==='granted'){new Notification('📖 WordBook Pro',{body:`Đến giờ học tiếng Anh rồi! Hôm nay bạn chưa ôn từ nhé 💪`,icon:'📖'});}
+    else{showToast('📖 Đến giờ học rồi!','#7c3aed');}
+    scheduleReminder(t);
+  },diff);
+}
+// Init reminder
+const savedRemind=localStorage.getItem('wb5_remind');
+if(savedRemind){
+  document.getElementById('remind-time').value=savedRemind;
+  document.getElementById('remind-status').textContent=`✅ Đã bật nhắc lúc ${savedRemind} mỗi ngày`;
+  document.getElementById('remind-status').style.color='#4ade80';
+  if(Notification.permission==='default') Notification.requestPermission();
+  scheduleReminder(savedRemind);
+}
+
+// ══ LIST & FILTER ════════════════════════════════════════════════════════════
+let listFilter='all';
+function filterList(f){
+  listFilter=f;
+  ['all','weak','today'].forEach(x=>{
+    const b=document.getElementById('f-'+x);
+    b.style.background=x===f?'rgba(167,139,250,.4)':'rgba(255,255,255,.08)';
+    b.style.color=x===f?'#e9d5ff':'rgba(255,255,255,.5)';
+  });
   renderList();
 }
-
-function renderList() {
-  const q = (document.getElementById('search-filter')?.value || '').toLowerCase();
-  const filtered = q ? words.filter(w => w.english.toLowerCase().includes(q) || w.vietnamese.toLowerCase().includes(q)) : words;
-  document.getElementById('list-label').textContent = `TẤT CẢ ${filtered.length} TỪ`;
-  document.getElementById('word-list').innerHTML = filtered.map(wordCardHTML).join('');
-  document.getElementById('list-empty').style.display = filtered.length === 0 ? 'block' : 'none';
+function renderList(){
+  const q=(document.getElementById('sf')?.value||'').toLowerCase();
+  const today=new Date().toDateString();
+  let filtered=words;
+  if(listFilter==='weak') filtered=words.filter(w=>(w.missCount||0)>(w.knowCount||0));
+  else if(listFilter==='today') filtered=words.filter(w=>new Date(w.addedAt).toDateString()===today);
+  if(q) filtered=filtered.filter(w=>w.english.toLowerCase().includes(q)||w.vietnamese.toLowerCase().includes(q));
+  document.getElementById('list-lbl').textContent=`${listFilter==='weak'?'😅 TỪ YẾU':listFilter==='today'?'📅 HÔM NAY':'TẤT CẢ'} ${filtered.length} TỪ`;
+  document.getElementById('word-list').innerHTML=filtered.map(wCardHTML).join('');
+  document.getElementById('list-empty').style.display=filtered.length===0?'block':'none';
 }
 
-function deleteWord(id) {
-  words = words.filter(w => w.id !== id);
-  save(); renderAll(); showToast('Đã xoá từ', '#ef4444');
+function wCardHTML(w){
+  const d=new Date(w.addedAt).toLocaleDateString('vi-VN');
+  const safe=w.english.replace(/'/g,"\\'");
+  const isWeak=(w.missCount||0)>(w.knowCount||0);
+  const missInfo=w.missCount>0?`<span style="font-size:9px;color:#f87171;font-weight:800;margin-left:4px">😅×${w.missCount}</span>`:'';
+  return `<div class="wcard">
+    <div class="wtop">
+      <div class="winfo">
+        <div class="wen">${isWeak?'<span class="weak-dot"></span>':''}${w.english}${missInfo}</div>
+        <div class="wph">${w.phonetic}</div>
+        <div class="wvi">${w.vietnamese}</div>
+        <div class="wex"><span style="color:#a78bfa;font-weight:800">Ví dụ: </span>${w.example}<br><span style="color:rgba(255,255,255,.2)">→ ${w.example_vi}</span></div>
+      </div>
+      <div class="wact">
+        <button class="ic ic-sp" onclick="speak('${safe}')">🔊</button>
+        <button class="ic ic-dl" onclick="delWord(${w.id})">🗑️</button>
+      </div>
+    </div>
+    <div class="wdate">Thêm ngày ${d} · ✅${w.knowCount||0} 😅${w.missCount||0}</div>
+  </div>`;
+}
+function delWord(id){words=words.filter(w=>w.id!==id);saveAll();renderAll();showToast('Đã xoá từ','#ef4444');}
+
+// ══ RENDER ALL ════════════════════════════════════════════════════════════════
+function renderAll(){
+  const today=new Date().toDateString();
+  const tc=words.filter(w=>new Date(w.addedAt).toDateString()===today).length;
+  document.getElementById('hb-total').textContent=`📚 ${words.length}`;
+  updateHBadges();
+  document.getElementById('add-empty').style.display=words.length===0?'block':'none';
+  document.getElementById('recent-sec').style.display=words.length>0?'block':'none';
+  document.getElementById('recent-list').innerHTML=words.slice(0,3).map(wCardHTML).join('');
+  const rb=document.getElementById('start-study-btn');
+  rb.style.display=words.length>0?'block':'none';
+  rb.textContent=`🃏 Ôn ${words.length} từ ngay!`;
+  // streak
+  document.getElementById('streak-count').textContent=stats.streak;
+  document.getElementById('hb-streak').textContent=`🔥 ${stats.streak}`;
+  document.getElementById('streak-txt').textContent=`Streak: ${stats.streak} ngày liên tiếp!`;
+  updateParent();
 }
 
-// ── FLASHCARD ─────────────────────────────────────────────────────────────────
-let queue = [], idx = 0, flipped = false, answered = false;
+function updateHBadges(){
+  document.getElementById('hb-score').textContent=`🏆 ${stats.todayScore}đ`;
+}
 
-function startReview() {
-  if (!words.length) {
-    show('review-empty'); hide('review-content'); hide('review-done'); return;
+// ══ PARENT ═══════════════════════════════════════════════════════════════════
+function updateParent(){
+  const mins=Math.floor((timerOn?timerSecs+Math.floor((Date.now()-timerStart)/1000):timerSecs)/60);
+  document.getElementById('p-time').textContent=mins+'p';
+  document.getElementById('p-words').textContent=words.length;
+  document.getElementById('p-score').textContent=stats.todayScore;
+  document.getElementById('p-read').textContent=stats.todayRead;
+  // Week bars
+  const DAYS=['CN','T2','T3','T4','T5','T6','T7'];
+  const bw=document.getElementById('wbars'),dw=document.getElementById('wdays');
+  bw.innerHTML='';dw.innerHTML='';
+  const MAX=18000;
+  for(let i=6;i>=0;i--){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const key=d.toDateString();const isT=i===0;
+    const secs=isT?stats.todayTime:(stats.weekData[key]||0);
+    const h=Math.max(3,Math.round((secs/MAX)*68));
+    const day=DAYS[d.getDay()];
+    const mins2=Math.floor(secs/60);
+    bw.innerHTML+=`<div class="wbw"><div class="wmin">${mins2}p</div><div class="wbar${isT?' today':''}" style="height:${h}px"></div></div>`;
+    dw.innerHTML+=`<div class="wbw"><div class="wday" style="${isT?'color:#a78bfa':''}">${isT?'Hôm nay':day}</div></div>`;
   }
-  queue = [...words].sort(() => Math.random() - 0.5);
-  idx = 0; flipped = false; answered = false;
-  hide('review-empty'); hide('review-done'); show('review-content');
-  renderCard();
+  // History
+  const hl=document.getElementById('hist-list');
+  const C=['#6EC6F5','#4ade80','#FFD93D','#c4b5fd','#f87171'];
+  if(!stats.history.length){hl.innerHTML='<div class="empty" style="padding:10px"><div class="empty-t">Chưa có lịch sử</div></div>';return;}
+  hl.innerHTML=stats.history.slice(0,14).map((h,i)=>{
+    const d=new Date(h.date);const lbl=`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+    const m=Math.floor(h.time/60);
+    return `<div class="hitem"><div class="hdot" style="background:${C[i%5]}"></div><div class="hinfo"><div class="hdate">${lbl}</div><div class="hdet">⏱️${m}p · 📚${h.words}từ · 📖${h.read||0}câu · ➕${h.added||0}mới</div></div><div class="hscore">${h.score}đ</div></div>`;
+  }).join('');
 }
 
-function renderCard() {
-  const w = queue[idx];
-  document.getElementById('c-en').textContent = w.english;
-  document.getElementById('c-ph').textContent = w.phonetic;
-  document.getElementById('c-vi').textContent = w.vietnamese;
-  document.getElementById('c-ex').textContent = w.example;
-  document.getElementById('c-ex-vi').textContent = '→ ' + w.example_vi;
-  const pct = ((idx + 1) / queue.length) * 100;
-  document.getElementById('prog-fill').style.width = pct + '%';
-  document.getElementById('prog-text').textContent = `${idx+1}/${queue.length}`;
-  flipped = false; answered = false;
-  document.getElementById('card-inner').classList.remove('flipped');
-  document.getElementById('ans-btns').style.display = 'none';
-  document.getElementById('flip-hint').style.display = 'block';
-  document.querySelectorAll('.answer-btn').forEach(b => b.classList.remove('sel'));
+// ══ SPEAK ════════════════════════════════════════════════════════════════════
+function speak(t,r){if(!window.speechSynthesis||!t)return;const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=r||0.82;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}
+
+// ══ CONFETTI ════════════════════════════════════════════════════════════════
+function confetti(n=22){
+  const C=['#FFD93D','#FF6B6B','#6EC6F5','#6BCB77','#c4b5fd','#FF9500'];
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div');d.className='cpiece';
+    d.style.cssText=`left:${Math.random()*100}vw;top:-20px;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${C[Math.floor(Math.random()*C.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1.2+Math.random()*1.5}s;animation-delay:${Math.random()*0.4}s;`;
+    document.body.appendChild(d);setTimeout(()=>d.remove(),3000);
+  }
 }
 
-function flipCard() {
-  if (flipped) return;
-  flipped = true;
-  document.getElementById('card-inner').classList.add('flipped');
-  document.getElementById('ans-btns').style.display = 'block';
-  document.getElementById('flip-hint').style.display = 'none';
-  speak(queue[idx]?.english);
-}
-
-function speakCard() { speak(queue[idx]?.english); }
-
-function answer(type) {
-  if (answered) return;
-  answered = true;
-  document.querySelector(type === 'know' ? '.btn-know' : '.btn-again').classList.add('sel');
-  setTimeout(() => {
-    if (idx + 1 >= queue.length) {
-      hide('review-content');
-      document.getElementById('review-done').style.display = 'block';
-      document.getElementById('done-sub').textContent = `Bạn vừa ôn ${queue.length} từ. Giỏi lắm!`;
-    } else { idx++; renderCard(); }
-  }, 500);
-}
-
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-function show(id) { document.getElementById(id).style.display = 'block'; }
-function hide(id) { document.getElementById(id).style.display = 'none'; }
-
-function speak(text) {
-  if (!window.speechSynthesis || !text) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'en-US'; u.rate = 0.85;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(u);
-}
-
-function showTab(name) {
-  ['add','review','list'].forEach(t => {
-    document.getElementById('tab-'+t).classList.toggle('active', t === name);
-    document.getElementById('nav-'+t).classList.toggle('active', t === name);
+// ══ TABS ════════════════════════════════════════════════════════════════════
+const TABS=['add','flash','read','daily','game','badges','list','parent'];
+function showTab(name){
+  TABS.forEach(t=>{
+    document.getElementById('tab-'+t).classList.toggle('active',t===name);
+    document.getElementById('nav-'+t).classList.toggle('active',t===name);
   });
-  document.querySelectorAll('.tab-btn').forEach((b,i) =>
-    b.classList.toggle('active', ['add','review','list'][i] === name));
-  if (name === 'review') startReview();
-  if (name === 'list') renderList();
+  document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('active',TABS[i]===name));
+  if(name==='flash') startFlash();
+  if(name==='read') startReadTab();
+  if(name==='daily') renderTopics();
+  if(name==='game'){if(words.length<4){show('gm-empty');hide('gm-content');}else{hide('gm-empty');show('gm-content');}}
+  if(name==='badges') renderBadges();
+  if(name==='list') renderList();
+  if(name==='parent') updateParent();
 }
 
-let toastTimer;
-function showToast(msg, color = '#22c55e') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.style.background = color;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2300);
-}
+// ══ TOAST ════════════════════════════════════════════════════════════════════
+let tt;
+function showToast(m,c='#22c55e'){const t=document.getElementById('toast');t.textContent=m;t.style.background=c;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400);}
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
+// ══ HELPERS ════════════════════════════════════════════════════════════════
+function show(id){const e=document.getElementById(id);if(e)e.style.display='block';}
+function hide(id){const e=document.getElementById(id);if(e)e.style.display='none';}
+
+// ══ INIT ════════════════════════════════════════════════════════════════════
 renderAll();
+renderTopics();
+checkBadges();
+if(Notification.permission==='default'&&savedRemind) Notification.requestPermission();
 </script>
 </body>
 </html>
